@@ -1,8 +1,5 @@
-#ifndef BITS_H
-#define BITS_H
-
 //!
-//! \file bits
+//! \file bit_base.cpp
 //!
 //! \brief Bit manipulation library
 //!
@@ -21,6 +18,16 @@
 //! \version 1.0.0a
 //!
 
-#include "bit_signal.h"
+//---------------------------- Include files -----------------------------------
 
-#endif
+#include "bit_signal_data.h"
+
+namespace bit
+{
+//------------------------ Public member methods -------------------------------
+
+//------------------------------------------------------------------------------
+SignalData::~SignalData()
+{
+}
+}

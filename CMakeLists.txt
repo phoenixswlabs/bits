@@ -9,6 +9,7 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/src/bit_base.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/bit_signal_data.cpp
 )
 
 target_include_directories(

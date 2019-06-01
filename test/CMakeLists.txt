@@ -10,6 +10,7 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/test_bit_base.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test_bit_signal.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)
