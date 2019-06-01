@@ -21,6 +21,6 @@
 //! \version 1.0.0a
 //!
 
-#include "bit_signal.h"
+#include "bit_buffer.h"
 
 #endif

@@ -1,43 +1,58 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.13)
 
 project(bits VERSION 1.0.0 LANGUAGES CXX)
 
-add_library(${PROJECT_NAME})
-add_library(Core::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
+
+add_library(${PROJECT_NAME}_${PROJECT_VERSION} STATIC)
+add_library(
+    Core::${PROJECT_NAME}_${PROJECT_VERSION}
+    ALIAS ${PROJECT_NAME}_${PROJECT_VERSION}
+    )
 
 target_sources(
-    ${PROJECT_NAME}
+    ${PROJECT_NAME}_${PROJECT_VERSION}
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/src/bit_base.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/bit_signal_data.cpp
-)
+    INTERFACE
+    ${CMAKE_CURRENT_LIST_DIR}/inc/bits
+    )
 
 target_include_directories(
-    ${PROJECT_NAME}
+    ${PROJECT_NAME}_${PROJECT_VERSION}
     PUBLIC
-        $<INSTALL_INTERFACE:inc>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
+    $<INSTALL_INTERFACE:inc>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+    )
 
-# Compile for C++ 98 standard
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_98)
+set_target_properties(
+    ${PROJECT_NAME}_${PROJECT_VERSION}
+    PROPERTIES
+    PREFIX
+    ""
+    EXPORT_NAME
+    ${PROJECT_NAME}_${PROJECT_VERSION}
+    )
 
-# Set the name of the exported package
-set_target_properties(${PROJECT_NAME} PROPERTIES EXPORT_NAME Core)
+export(
+    TARGETS ${PROJECT_NAME}_${PROJECT_VERSION}
+    NAMESPACE Core::
+    FILE ${PROJECT_NAME}_${PROJECT_VERSION}Config.cmake
+    )
 
-# Register package in user's package registry
-export(PACKAGE Core)
+export(PACKAGE ${PROJECT_NAME}_${PROJECT_VERSION})
+
+# Link library
+target_link_libraries(${PROJECT_NAME}_${PROJECT_VERSION})
 
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Generic")
 
     if (BUILD_SUBMODULE_TESTS)
 
-    enable_testing()
+        enable_testing()
 
-    add_subdirectory(test)
+        add_subdirectory(test)
 
     endif()
 
